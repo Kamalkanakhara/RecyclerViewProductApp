@@ -1,0 +1,35 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/productListFragment">
+
+    <fragment
+        android:id="@+id/productListFragment"
+        android:name="com.example.recyclerviewproductapp.ui.ProductListFragment"
+        android:label="Product List">
+
+        <action
+            android:id="@+id/action_list_to_detail"
+            app:destination="@id/productDetailFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.example.recyclerviewproductapp.ui.ProductDetailFragment"
+        android:label="Product Detail">
+
+        <argument
+            android:name="productId"
+            app:argType="integer"/>
+
+        <argument
+            android:name="productName"
+            app:argType="string" />
+
+        <argument
+            android:name="productPrice"
+            app:argType="float" />
+
+    </fragment>
+
+</navigation>
