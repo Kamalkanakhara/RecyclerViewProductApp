@@ -1,23 +1,23 @@
-Day 2 – RecyclerView Product App
+Day 4 Task Implemented
 
-This project demonstrates the implementation of RecyclerView in Android using Kotlin.
-It displays a static list of products with a custom item layout built using ConstraintLayout.
-The project follows the Adapter pattern and implements the ViewHolder pattern for efficient view handling.
-DiffUtil is used to optimize list updates and improve performance.
-Clicking on any product navigates to a DetailActivity using Intent.
+Enhancements implemented in the existing RecyclerView project:
+- Implemented Navigation Component
+- Used SafeArgs to pass Product ID, Name, and Price to the detail screen
+- Added proper back navigation
+- Refactored the project to follow MVVM Architecture**
+- Implemented Repository Pattern
 
-📂 Important Files:
+-- MVVM Structure
 
-java/com.example.recyclerviewproductapp/MainActivity.kt
+com.example.recyclerviewproductapp
 
-java/com.example.recyclerviewproductapp/ProductAdapter.kt
+data/  
+  ProductRepository.kt  
 
-java/com.example.recyclerviewproductapp/Product.kt
+ui/  
+  ProductListFragment.kt  
+  ProductDetailFragment.kt  
+  ProductAdapter.kt  
 
-java/com.example.recyclerviewproductapp/DetailActivity.kt
-
-res/layout/activity_main.xml
-
-res/layout/product_item.xml
-
-res/layout/activity_detail.xml
+viewmodel/  
+  ProductViewModel.kt  
