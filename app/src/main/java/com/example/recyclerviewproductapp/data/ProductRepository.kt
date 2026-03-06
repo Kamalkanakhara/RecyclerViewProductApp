@@ -1,10 +1,13 @@
 package com.example.recyclerviewproductapp.data
 
 import com.example.recyclerviewproductapp.Product
+import kotlinx.coroutines.delay
 
 class ProductRepository {
 
-    fun getProducts(): List<Product> {
+    suspend fun getProducts(): List<Product> {
+
+        delay(2000)
 
         return listOf(
             Product(1,"Laptop",55000.0),

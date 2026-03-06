@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,9 +17,7 @@ class ProductListFragment : Fragment() {
 
     private var _binding: FragmentProductListBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: ProductViewModel by viewModels()
-
     private lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
@@ -30,22 +29,42 @@ class ProductListFragment : Fragment() {
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
 
         adapter = ProductAdapter { product ->
+            viewModel.openProductDetail(product) {
+                val action =
+                    ProductListFragmentDirections
+                        .actionListToDetail(
+                            product.id,
+                            product.name,
+                            product.price.toFloat()
+                        )
 
-            val action =
-                ProductListFragmentDirections
-                    .actionListToDetail(  product.id,
-                                        product.name,
-                                    product.price.toFloat())
-
-            findNavController().navigate(action)
+                findNavController().navigate(action)
+            }
 
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        val products = viewModel.getProducts()
-        adapter.submitList(products)
+        viewModel.fetchProducts()
+
+        viewModel.products.observe(viewLifecycleOwner) {
+
+            adapter.submitList(it)
+
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+
+            binding.progressBar.visibility =
+                if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+
+        }
 
         return binding.root
     }
