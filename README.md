@@ -15,12 +15,12 @@ The app now introduces a loading state and delay simulation before navigating to
 com.example.recyclerviewproductapp
 
 data/
-   ProductRepository.kt
+  -- ProductRepository.kt
 
 ui/
-   ProductListFragment.kt
-   ProductDetailFragment.kt
-   ProductAdapter.kt
+  -- ProductListFragment.kt
+  -- ProductDetailFragment.kt
+  -- ProductAdapter.kt
 
 viewmodel/
-   ProductViewModel.kt
+  -- ProductViewModel.kt
