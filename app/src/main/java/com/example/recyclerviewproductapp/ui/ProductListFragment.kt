@@ -34,7 +34,7 @@ class ProductListFragment : Fragment() {
                     ProductListFragmentDirections
                         .actionListToDetail(
                             product.id,
-                            product.name,
+                            product.title,
                             product.price.toFloat()
                         )
 

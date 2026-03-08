@@ -20,31 +20,33 @@ class ProductViewModel : ViewModel() {
             loading.value = true
 
             try {
+
                 val result = repository.getProducts()
+
                 products.value = result
 
             } catch (e: Exception) {
 
-                error.value = "Failed to load products"
+                error.value = "No Internet Connection or API Error"
 
             } finally {
 
                 loading.value = false
+
             }
-
         }
     }
-    fun openProductDetail(product: Product, onNavigate: (Product) -> Unit) {
+        fun openProductDetail(product: Product, onNavigate: (Product) -> Unit) {
 
-        viewModelScope.launch {
+            viewModelScope.launch {
 
-            loading.value = true
+                loading.value = true
 
-            delay(2000) // simulate API delay
+                delay(2000) // simulate API delay
 
-            loading.value = false
+                loading.value = false
 
-            onNavigate(product)
+                onNavigate(product)
+            }
         }
     }
-}
