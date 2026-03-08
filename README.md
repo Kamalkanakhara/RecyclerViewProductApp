@@ -1,23 +1,26 @@
-Day 4 Task Implemented
+Day 5 – Coroutines Implementation
 
-Enhancements implemented in the existing RecyclerView project:
-- Implemented Navigation Component
-- Used SafeArgs to pass Product ID, Name, and Price to the detail screen
-- Added proper back navigation
-- Refactored the project to follow MVVM Architecture**
-- Implemented Repository Pattern
+Day 5 focuses on implementing Kotlin Coroutines in the application to simulate API calls and manage asynchronous operations in a clean MVVM architecture.
+The app now introduces a loading state and delay simulation before navigating to the product detail screen.
 
--- MVVM Structure
+-  Features Added
 
+-- Simulated API delay using delay()
+-- Loading indicator (ProgressBar) while data is being fetched
+-- Coroutine execution inside ViewModel
+-- Navigation after coroutine completion
+-- Basic error handling using LiveData
+
+-  Project Architecture 
 com.example.recyclerviewproductapp
 
-data/  
-  ProductRepository.kt  
+data/
+  -- ProductRepository.kt
 
-ui/  
-  ProductListFragment.kt  
-  ProductDetailFragment.kt  
-  ProductAdapter.kt  
+ui/
+  -- ProductListFragment.kt
+  -- ProductDetailFragment.kt
+  -- ProductAdapter.kt
 
-viewmodel/  
-  ProductViewModel.kt  
+viewmodel/
+  -- ProductViewModel.kt
