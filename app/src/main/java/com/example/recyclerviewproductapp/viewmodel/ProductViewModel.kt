@@ -10,43 +10,25 @@ class ProductViewModel : ViewModel() {
     private val repository = ProductRepository()
 
     val products = MutableLiveData<List<Product>>()
-    val loading = MutableLiveData<Boolean>()
-    val error = MutableLiveData<String>()
+    private val _uiState = MutableLiveData<UiState<List<Product>>>()
+    val uiState: LiveData<UiState<List<Product>>> = _uiState
 
     fun fetchProducts() {
 
         viewModelScope.launch {
 
-            loading.value = true
+            _uiState.value = UiState.Loading
 
             try {
 
                 val result = repository.getProducts()
 
-                products.value = result
+                _uiState.value = result
 
             } catch (e: Exception) {
-
-                error.value = "No Internet Connection or API Error"
-
-            } finally {
-
-                loading.value = false
+                _uiState.value = UiState.Error("Failed to load products")
 
             }
         }
     }
-        fun openProductDetail(product: Product, onNavigate: (Product) -> Unit) {
-
-            viewModelScope.launch {
-
-                loading.value = true
-
-                delay(2000) // simulate API delay
-
-                loading.value = false
-
-                onNavigate(product)
-            }
-        }
     }

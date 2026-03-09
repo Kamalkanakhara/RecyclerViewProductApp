@@ -30,6 +30,10 @@
             android:name="productPrice"
             app:argType="float" />
 
+        <argument
+            android:name="productImage"
+            app:argType="string" />
+
     </fragment>
 
 </navigation>

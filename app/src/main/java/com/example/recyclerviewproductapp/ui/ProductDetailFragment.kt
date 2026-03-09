@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.recyclerviewproductapp.databinding.FragmentProductDetailBinding
+import com.bumptech.glide.Glide
 
 class ProductDetailFragment : Fragment() {
 
@@ -22,11 +23,14 @@ class ProductDetailFragment : Fragment() {
         _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
 
         val args = ProductDetailFragmentArgs.fromBundle(requireArguments())
-        val id = args.productId
         val name = args.productName
         val price = args.productPrice
 
-        binding.tvDetail.text = "$name\nPrice: Rs$price"
+        binding.tvDetail.text = "$name"
+        binding.tvProductPrice.text="Rs$price"
+        Glide.with(requireContext())
+            .load(args.productImage)
+            .into(binding.productImage)
         binding.backbutton.setOnClickListener {
             findNavController().popBackStack()
         }

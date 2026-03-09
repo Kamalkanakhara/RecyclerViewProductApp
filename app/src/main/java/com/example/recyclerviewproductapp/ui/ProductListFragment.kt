@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerviewproductapp.adapter.ProductAdapter
 import com.example.recyclerviewproductapp.databinding.FragmentProductListBinding
 import com.example.recyclerviewproductapp.viewmodel.ProductViewModel
+import com.example.recyclerviewproductapp.viewmodel.UiState
 
 class ProductListFragment : Fragment() {
 
@@ -28,20 +29,27 @@ class ProductListFragment : Fragment() {
 
         _binding = FragmentProductListBinding.inflate(inflater, container, false)
 
-        adapter = ProductAdapter { product ->
-            viewModel.openProductDetail(product) {
+        adapter = ProductAdapter (
+            onClick = { product ->
+
                 val action =
                     ProductListFragmentDirections
                         .actionListToDetail(
                             product.id,
                             product.title,
-                            product.price.toFloat()
+                            product.price.toFloat(),
+                            product.image
                         )
-
                 findNavController().navigate(action)
+        },
+            onAddToCartClick = { product ->
+                Toast.makeText(
+                    requireContext(),
+                    "${product.title} Added to cart",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-
-        }
+        )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
@@ -54,16 +62,21 @@ class ProductListFragment : Fragment() {
 
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
 
-            binding.progressBar.visibility =
-                if (isLoading) View.VISIBLE else View.GONE
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) {
-
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-
+            when (state) {
+                is UiState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    adapter.submitList(state.data)
+                }
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return binding.root
