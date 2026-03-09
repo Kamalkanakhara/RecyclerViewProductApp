@@ -62,11 +62,13 @@ If the API request fails or there is no internet connection, an appropriate erro
   <img width="1080" height="2400" alt="Screenshot_20260309_185920" src="https://github.com/user-attachments/assets/00bfb26b-a26b-4144-a1f2-f7a5b9e60b72" />
 
 * Product Detail Screen
+  <img width="1080" height="2400" alt="Screenshot_20260309_192507" src="https://github.com/user-attachments/assets/ebbe2e38-9278-4e55-85b3-3c6857cbe1cf" />
+
 * Loading State
-* Add to Cart Toast Message
+<img width="1080" height="2400" alt="loading" src="https://github.com/user-attachments/assets/d568916e-8c3a-4c6a-b523-f60699adfca0" />
+
 
 ## Outcome
 
 The application is now a fully functional API-based product listing app that follows MVVM architecture and handles loading, success, and error states efficiently.
-
 Week 1 of the Android development project has been successfully completed with a working application and improved code structure.
