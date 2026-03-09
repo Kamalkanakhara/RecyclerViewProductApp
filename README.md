@@ -1,21 +1,23 @@
-Day 5 – Coroutines Implementation
+Day 6 – Retrofit Integration
 
-Day 5 focuses on implementing Kotlin Coroutines in the application to simulate API calls and manage asynchronous operations in a clean MVVM architecture.
-The app now introduces a loading state and delay simulation before navigating to the product detail screen.
+ Retrofit was integrated into the application to fetch product data from a dummy API instead of using static data. The application now retrieves products from an online source and displays them in a RecyclerView using the MVVM architecture.
 
--  Features Added
+* Features Implemented
 
--- Simulated API delay using delay()
--- Loading indicator (ProgressBar) while data is being fetched
--- Coroutine execution inside ViewModel
--- Navigation after coroutine completion
--- Basic error handling using LiveData
+-- Connected the app to a dummy REST API
+-- Fetched product data using Retrofit
+-- Displayed API data in RecyclerView
+-- Implemented error handling
+-- Displayed a message when no internet connection occurs
 
--  Project Architecture 
+ * Project Architecture
+
 com.example.recyclerviewproductapp
 
 data/
   -- ProductRepository.kt
+  --  ProductApi.kt
+  --  RetrofitClient.kt
 
 ui/
   -- ProductListFragment.kt
