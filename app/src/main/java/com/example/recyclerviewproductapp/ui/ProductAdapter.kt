@@ -45,10 +45,9 @@ class ProductAdapter(
 
         holder.itemView.setOnClickListener {
             onClick(product)
-
+        }
         holder.binding.btnAddToCart.setOnClickListener {
             onAddToCartClick(product)
-        }
         }
     }
 }

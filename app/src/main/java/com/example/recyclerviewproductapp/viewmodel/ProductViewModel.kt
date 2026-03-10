@@ -3,11 +3,14 @@ package com.example.recyclerviewproductapp.viewmodel
 import androidx.lifecycle.*
 import com.example.recyclerviewproductapp.Product
 import com.example.recyclerviewproductapp.data.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class ProductViewModel : ViewModel() {
-
-    private val repository = ProductRepository()
+@HiltViewModel
+class ProductViewModel @Inject constructor(
+        private val repository: ProductRepository
+) : ViewModel() {
 
     val products = MutableLiveData<List<Product>>()
     private val _uiState = MutableLiveData<UiState<List<Product>>>()

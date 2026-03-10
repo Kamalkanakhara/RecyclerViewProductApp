@@ -13,7 +13,9 @@ import com.example.recyclerviewproductapp.adapter.ProductAdapter
 import com.example.recyclerviewproductapp.databinding.FragmentProductListBinding
 import com.example.recyclerviewproductapp.viewmodel.ProductViewModel
 import com.example.recyclerviewproductapp.viewmodel.UiState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductListFragment : Fragment() {
 
     private var _binding: FragmentProductListBinding? = null
