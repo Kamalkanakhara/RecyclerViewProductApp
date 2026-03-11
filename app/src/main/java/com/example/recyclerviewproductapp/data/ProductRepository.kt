@@ -1,18 +1,18 @@
 package com.example.recyclerviewproductapp.data
 
 import com.example.recyclerviewproductapp.Product
+import com.example.recyclerviewproductapp.ProductApi
 import com.example.recyclerviewproductapp.viewmodel.UiState
-import javax.inject.Inject
 
-class ProductRepository @Inject constructor(
-    private val retrofitClient: RetrofitClient
+class ProductRepository (
+    private val api: ProductApi
 ) {
 
     suspend fun getProducts(): UiState<List<Product>> {
 
         return try {
 
-            val response = retrofitClient.api.getProducts()
+            val response = api.getProducts()
             UiState.Success(response)
 
         } catch (e: Exception) {
