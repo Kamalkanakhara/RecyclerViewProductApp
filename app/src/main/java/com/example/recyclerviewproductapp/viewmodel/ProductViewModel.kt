@@ -5,6 +5,7 @@ import com.example.recyclerviewproductapp.Product
 import com.example.recyclerviewproductapp.data.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -12,26 +13,25 @@ class ProductViewModel @Inject constructor(
         private val repository: ProductRepository
 ) : ViewModel() {
 
-    val products = MutableLiveData<List<Product>>()
+    val products =  repository.getCachedProducts()
+        .map { entityList ->
+            entityList.map { entity ->
+                Product(
+                    id = entity.id,
+                    title = entity.title,
+                    price = entity.price,
+                    image = entity.image
+                )
+            }
+        }
+        .asLiveData()
     private val _uiState = MutableLiveData<UiState<List<Product>>>()
     val uiState: LiveData<UiState<List<Product>>> = _uiState
 
     fun fetchProducts() {
 
         viewModelScope.launch {
-
-            _uiState.value = UiState.Loading
-
-            try {
-
-                val result = repository.getProducts()
-
-                _uiState.value = result
-
-            } catch (e: Exception) {
-                _uiState.value = UiState.Error("Failed to load products")
-
-            }
+            repository.fetchProducts()
         }
     }
     }

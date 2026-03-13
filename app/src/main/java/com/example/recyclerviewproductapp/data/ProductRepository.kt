@@ -5,21 +5,30 @@ import com.example.recyclerviewproductapp.ProductApi
 import com.example.recyclerviewproductapp.viewmodel.UiState
 
 class ProductRepository (
-    private val api: ProductApi
+    private val api: ProductApi,
+    private val dao: ProductDao
 ) {
 
-    suspend fun getProducts(): UiState<List<Product>> {
+    fun getCachedProducts() = dao.getProducts()
 
-        return try {
+    suspend fun fetchProducts() {
 
-            val response = api.getProducts()
-            UiState.Success(response)
+        try {
+
+            val products = api.getProducts()
+
+            val entities = products.map {
+                ProductEntity(
+                    id = it.id,
+                    title = it.title,
+                    price = it.price,
+                    image = it.image
+                )
+            }
+
+            dao.insertProducts(entities)
 
         } catch (e: Exception) {
-
-            UiState.Error(e.message ?: "Something went wrong")
         }
-
     }
-
 }
