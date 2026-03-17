@@ -52,21 +52,49 @@ class ProductListFragment : Fragment() {
                 ).show()
             }
         )
+        binding.retryButton.setOnClickListener {
+
+            binding.retryButton.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+
+            viewModel.fetchProducts()
+        }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        if (savedInstanceState == null) {
-            viewModel.fetchProducts()
+        viewModel.fetchProducts()
+
+        viewModel.products.observe(viewLifecycleOwner) {
+
+            adapter.submitList(it)
+
         }
 
-        viewModel.products.observe(viewLifecycleOwner) { list ->
-            if (list.isEmpty()) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
+        viewModel.uiState.observe(viewLifecycleOwner) { state ->
+
+            when (state) {
+
+                is UiState.Loading -> {
+                    if (adapter.itemCount == 0) {   //
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                }
+                is UiState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                }
+                is UiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+
+                    Toast.makeText(
+                        requireContext(),
+                        state.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    binding.retryButton.visibility = View.VISIBLE
+                }
             }
-            adapter.submitList(list)
         }
 
         return binding.root

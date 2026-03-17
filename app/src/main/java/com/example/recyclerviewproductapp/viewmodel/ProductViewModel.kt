@@ -2,6 +2,7 @@ package com.example.recyclerviewproductapp.viewmodel
 
 import androidx.lifecycle.*
 import com.example.recyclerviewproductapp.Product
+import com.example.recyclerviewproductapp.data.ProductEntity
 import com.example.recyclerviewproductapp.data.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -25,12 +26,16 @@ class ProductViewModel @Inject constructor(
             }
         }
         .asLiveData()
-    private val _uiState = MutableLiveData<UiState<List<Product>>>()
+    private val _uiState = MutableLiveData<UiState<List<ProductEntity>>>()
+    val uiState: LiveData<UiState<List<ProductEntity>>> = _uiState
 
     fun fetchProducts() {
 
         viewModelScope.launch {
-            repository.fetchProducts()
+            _uiState.value = UiState.Loading
+            val result = repository.fetchProducts()
+
+            _uiState.value = result
         }
     }
     }

@@ -3,6 +3,8 @@ package com.example.recyclerviewproductapp.data
 import com.example.recyclerviewproductapp.Product
 import com.example.recyclerviewproductapp.ProductApi
 import com.example.recyclerviewproductapp.viewmodel.UiState
+import retrofit2.HttpException
+import java.io.IOException
 
 class ProductRepository (
     private val api: ProductApi,
@@ -11,9 +13,9 @@ class ProductRepository (
 
     fun getCachedProducts() = dao.getProducts()
 
-    suspend fun fetchProducts() {
+    suspend fun fetchProducts(): UiState<List<ProductEntity>> {
 
-        try {
+         return try {
 
             val products = api.getProducts()
 
@@ -27,8 +29,14 @@ class ProductRepository (
             }
 
             dao.insertProducts(entities)
+            UiState.Success(entities)
 
+        } catch (e: IOException) {
+            UiState.Error("No Internet Connection")
+        } catch (e: HttpException) {
+            UiState.Error("Server Error: ${e.code()}")
         } catch (e: Exception) {
+            UiState.Error("Something went wrong")
         }
     }
 }
