@@ -56,29 +56,17 @@ class ProductListFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        viewModel.fetchProducts()
-
-        viewModel.products.observe(viewLifecycleOwner) {
-
-            adapter.submitList(it)
-
+        if (savedInstanceState == null) {
+            viewModel.fetchProducts()
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-
-            when (state) {
-                is UiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
-                }
-                is UiState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    adapter.submitList(state.data)
-                }
-                is UiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
-                }
+        viewModel.products.observe(viewLifecycleOwner) { list ->
+            if (list.isEmpty()) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
             }
+            adapter.submitList(list)
         }
 
         return binding.root

@@ -26,7 +26,6 @@ class ProductViewModel @Inject constructor(
         }
         .asLiveData()
     private val _uiState = MutableLiveData<UiState<List<Product>>>()
-    val uiState: LiveData<UiState<List<Product>>> = _uiState
 
     fun fetchProducts() {
 
